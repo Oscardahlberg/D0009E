@@ -1,0 +1,71 @@
+
+# Created by Oscar Dahlberg for course d0015e Introduction to programming Labb 3 Uppgift 1a
+
+with open("ordlista.txt", "a+") as f:
+
+    ord_lista = [0]
+    ord_lista[0] = ""
+
+    ord_definition = [0]
+    ord_definition[0] = ""
+    list_nummer = 0
+
+    list_stop = sum(1 for line in f)
+    f.seek(0)
+
+    n = 0
+    o = 0
+    while True:
+        ett_ord = f.readlines()[n]
+        m = 0
+        while True:
+            if ett_ord[m] == " ":
+                p = m
+                while True:
+                    if ett_ord[m + 1] == "1":
+                        o += 1
+                        break
+                    ord_definition[o] = ord_definition[o] + ett_ord[m + 1]
+                    m += 1
+                m = p
+                f.seek(0)
+                if len(ord_definition) == len(f.readlines()):
+                    break
+                ord_definition.append("")
+                break
+            else:
+                ord_lista[n] = ord_lista[n] + ett_ord[m]
+            m += 1
+        n += 1
+        f.seek(0)
+        if len(f.readlines()) == n:
+            break
+        f.seek(0)
+        ord_lista.append("")
+
+    while True:
+        print("Type '1' to look a word up, type '2' to add a word, type 'end' to end this program")
+        user_choice = input()
+        if user_choice == "end":
+            break
+        m = 0
+        if user_choice == "1":
+            print("Type what word you want to look up")
+            user_input = input()
+            while True:
+                if user_input == ord_lista[m]:
+                    print("Word definition: " + ord_definition[m] + "\n")
+                    break
+                m += 1
+                if m == len(ord_lista):
+                    print("Word not found pepehands")
+                    break
+        if user_choice == "2":
+            print("What word do you want to add?")
+            nytt_ord = input()
+            ord_lista.append(nytt_ord)
+            print("What is the definition of this word?")
+            ny_definition = input()
+            ord_definition.append(ny_definition)
+            f.write("\n" + nytt_ord + " " + ny_definition + "1")
+            print("Word added, type end to save the word for future use")
