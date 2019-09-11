@@ -1,42 +1,49 @@
 
 # Created by Oscar Dahlberg for course d0015e Introduction to programming Labb 3 Uppgift 1a
+# Finished 2019-09-10
 
 with open("ordlista.txt", "a+") as f:
     f.seek(0)
 
     ord_lista = [0]
     ord_lista[0] = ""
+    # En lista av alla ord
 
     ord_definition = [0]
     ord_definition[0] = ""
-    list_nummer = 0
+    # En lista av alla definitioner
 
-    n = 0
-    o = 0
+    position_ord = 0
+    # Vilken position programmet är på för ordet
+    position_defintion = 0
+    # Vilken position programmet är på för defintionen för ordet
+    position_rad = 0
+    # Vilken rad programmet är på
+    
     while True:
-        ett_ord = f.readlines()[n]
-        m = 0
+        ett_ord = f.readlines()[position_rad]
+        position_ord = 0
         while True:
-            if ett_ord[m] == " ":
-                p = m
+            if ett_ord[position_ord] == " ":
+                p = position_ord
                 while True:
-                    if ett_ord[m + 1] == "1":
-                        o += 1
+                    if ett_ord[position_ord + 1] == "1":
+                        position_defintion += 1
                         break
-                    ord_definition[o] = ord_definition[o] + ett_ord[m + 1]
-                    m += 1
-                m = p
+                    ord_definition[position_defintion] = ord_definition[position_defintion] + ett_ord[position_ord + 1]
+                    position_ord += 1
+                position_ord = p
                 f.seek(0)
                 if len(ord_definition) == len(f.readlines()):
                     break
                 ord_definition.append("")
                 break
             else:
-                ord_lista[n] = ord_lista[n] + ett_ord[m]
-            m += 1
-        n += 1
+                ord_lista[position_rad] = ord_lista[position_rad] + ett_ord[position_ord]
+            position_ord += 1
+        position_rad += 1
         f.seek(0)
-        if len(f.readlines()) == n:
+        if len(f.readlines()) == position_rad:
             break
         f.seek(0)
         ord_lista.append("")
