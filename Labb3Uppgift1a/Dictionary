@@ -2,6 +2,7 @@
 # Created by Oscar Dahlberg for course d0015e Introduction to programming Labb 3 Uppgift 1a
 
 with open("ordlista.txt", "a+") as f:
+    f.seek(0)
 
     ord_lista = [0]
     ord_lista[0] = ""
@@ -9,9 +10,6 @@ with open("ordlista.txt", "a+") as f:
     ord_definition = [0]
     ord_definition[0] = ""
     list_nummer = 0
-
-    list_stop = sum(1 for line in f)
-    f.seek(0)
 
     n = 0
     o = 0
