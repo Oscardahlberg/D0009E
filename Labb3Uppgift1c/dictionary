@@ -1,1 +1,61 @@
+with open("ordlista2.txt", "a+") as f:
+    f.seek(0)
+    dictionary = {}
 
+    position_ord = 0
+    # Vilken position programmet är på för ordet
+    position_definition = 0
+    # Vilken position programmet är på för defintionen för ordet
+    position_rad = 0
+    # Vilken rad programmet är på
+
+    while True:
+        word_from_list = ""
+        en_rad = str(f.readlines()[position_rad])
+        f.seek(0)
+        while True:
+            if en_rad[position_ord] == " ":
+                word_from_list = en_rad[0:position_ord]
+                position_definition = position_ord
+                definition = ""
+                while True:
+                    if en_rad[position_definition + 1] == "1":
+                        dictionary[word_from_list] = definition
+                        break
+                    definition += en_rad[position_definition + 1]
+                    position_definition += 1
+                break
+            if en_rad[position_ord] != "[" and en_rad[position_ord] != "'":
+                word_from_list += en_rad[position_ord]
+            position_ord += 1
+        if len(f.readlines()) == position_rad + 1:
+            break
+        f.seek(0)
+        position_rad += 1
+        position_ord = 0
+
+    while True:
+        print("Type '1' to look a word up, type '2' to add a word, type 'end' to end this program")
+        user_choice = input()
+        if user_choice == "end":
+            break
+        if user_choice == "1":
+            print("Type what word you want to look up")
+            user_input = input()
+            m = 0
+            for key in dictionary:
+                if user_input == key:
+                    print("Word definition: " + dictionary[key] + "\n")
+                    break
+            if m == 1:
+                print("Word not found pepehands")
+        if user_choice == "2":
+            if user_choice == "2":
+                print("What word do you want to add?")
+                nytt_ord = input()
+                print("What is the definition of this word?")
+                ny_beskrivning = input()
+                dictionary[nytt_ord] = ny_beskrivning
+                print(dictionary[nytt_ord])
+                f.write("\n" + nytt_ord + " " + ny_beskrivning + "1")
+                print("Word added, type end to save the word for future use")
