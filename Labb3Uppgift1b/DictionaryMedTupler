@@ -59,10 +59,10 @@ with open("ordlista1.txt", "a+") as f:
                     print("Word not found pepehands")
                     break
         if user_choice == "1":
-             print("Word to insert: ")
-             temporary[0][0] = input()
-             print("Description of word: ")
-             temporary[0][1] = input()
-             list_of_tuples_of_words.append(temporary[0])
-             f.write("\n" + temporary[0][0] + " " + temporary[0][1] + "1")
-             print("Word added, type end to save the word for future use")
+            print("Word to insert: ")
+            temporary[0][0] = input()
+            print("Description of word: ")
+            temporary[0][1] = input()
+            list_of_tuples_of_words.append(temporary[0])
+            f.write("\n" + temporary[0][0] + " " + temporary[0][1] + "1")
+            print("Word added, type '3' to save the word for future use")
