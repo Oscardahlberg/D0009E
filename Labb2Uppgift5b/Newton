@@ -1,1 +1,18 @@
+import math
 
+
+def derivative(f, x, h):
+    return (f(x + h) - f(x - h))/(2 * h)
+
+
+def solve(f, x0, h):
+    x = 0
+    while True:
+        x = x0 - (f(x0)/derivative(f, x0, h))
+        if abs(x - x0) < h:
+            break
+        x0 = x
+    return x
+
+
+print(solve(math.sin, math.pi, 0.0001))
