@@ -49,27 +49,30 @@ with open("ordlista.txt", "a+") as f:
         ord_lista.append("")
 
     while True:
-        print("Type '1' to look a word up, type '2' to add a word, type 'end' to end this program")
+        print("Menu for dictionary")
+        print("1: Insert")
+        print("2: Lookup")
+        print("3: Exit Program")
         user_choice = input()
         if user_choice == "end":
             break
         m = 0
-        if user_choice == "1":
-            print("Type what word you want to look up")
+        if user_choice == "2":
+            print("Word to lookup: ")
             user_input = input()
             while True:
                 if user_input == ord_lista[m]:
-                    print("Word definition: " + ord_definition[m] + "\n")
+                    print("Description for " + user_input + ": " + ord_definition[m] + "\n")
                     break
                 m += 1
                 if m == len(ord_lista):
                     print("Word not found pepehands")
                     break
         if user_choice == "2":
-            print("What word do you want to add?")
+            print("Word to insert: ")
             nytt_ord = input()
             ord_lista.append(nytt_ord)
-            print("What is the definition of this word?")
+            print("Description of word: ")
             ny_definition = input()
             ord_definition.append(ny_definition)
             f.write("\n" + nytt_ord + " " + ny_definition + "1")
