@@ -35,27 +35,29 @@ with open("ordlista2.txt", "a+") as f:
         position_ord = 0
 
     while True:
-        print("Type '1' to look a word up, type '2' to add a word, type 'end' to end this program")
+        print("Menu for dictionary")
+        print("1: Insert")
+        print("2: Lookup")
+        print("3: Exit Program")
         user_choice = input()
-        if user_choice == "end":
+        if user_choice == "3":
             break
-        if user_choice == "1":
-            print("Type what word you want to look up")
+        if user_choice == "2":
+            print("Word to lookup: ")
             user_input = input()
             m = 0
             for key in dictionary:
                 if user_input == key:
-                    print("Word definition: " + dictionary[key] + "\n")
+                    print("Description for " + user_input + ": " + dictionary[key] + "\n")
                     break
             if m == 1:
                 print("Word not found pepehands")
-        if user_choice == "2":
-            if user_choice == "2":
-                print("What word do you want to add?")
-                nytt_ord = input()
-                print("What is the definition of this word?")
-                ny_beskrivning = input()
-                dictionary[nytt_ord] = ny_beskrivning
-                print(dictionary[nytt_ord])
-                f.write("\n" + nytt_ord + " " + ny_beskrivning + "1")
-                print("Word added, type end to save the word for future use")
+        if user_choice == "1":
+            print("Word to insert: ")
+            nytt_ord = input()
+            print("Description of word: ")
+            ny_beskrivning = input()
+            dictionary[nytt_ord] = ny_beskrivning
+            print(dictionary[nytt_ord])
+            f.write("\n" + nytt_ord + " " + ny_beskrivning + "1")
+            print("Word added, type '3' to save the word for future use")
