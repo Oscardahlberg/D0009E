@@ -68,7 +68,7 @@ with open("ordlista.txt", "a+") as f:
                 if m == len(ord_lista):
                     print("Word not found pepehands")
                     break
-        if user_choice == "2":
+        if user_choice == "1":
             print("Word to insert: ")
             nytt_ord = input()
             ord_lista.append(nytt_ord)
