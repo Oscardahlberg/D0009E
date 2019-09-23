@@ -76,4 +76,4 @@ with open("ordlista.txt", "a+") as f:
             ny_definition = input()
             ord_definition.append(ny_definition)
             f.write("\n" + nytt_ord + " " + ny_definition + "1")
-            print("Word added, type end to save the word for future use")
+            print("Word added, type '3' to save the word for future use")
