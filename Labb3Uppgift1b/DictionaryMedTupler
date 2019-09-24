@@ -27,8 +27,7 @@ with open("ordlista1.txt", "a+") as f:
                     temporary[0][1] += en_rad[position_definition + 1]
                     position_definition += 1
                 break
-            if en_rad[position_ord] != "[" and en_rad[position_ord] != "'":
-                temporary[0][0] += en_rad[position_ord]
+            temporary[0][0] += en_rad[position_ord]
             position_ord += 1
         list_of_tuples_of_words[position_rad] = temporary[0]
         if len(f.readlines()) == position_rad + 1:
