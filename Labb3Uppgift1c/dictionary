@@ -25,8 +25,7 @@ with open("ordlista2.txt", "a+") as f:
                     definition += en_rad[position_definition + 1]
                     position_definition += 1
                 break
-            if en_rad[position_ord] != "[" and en_rad[position_ord] != "'":
-                word_from_list += en_rad[position_ord]
+            word_from_list += en_rad[position_ord]
             position_ord += 1
         if len(f.readlines()) == position_rad + 1:
             break
