@@ -1,6 +1,18 @@
 import math
 
 
+def f1(x):
+    return x**2 - 1
+
+
+def f2(x):
+    return math.sin(x)
+
+
+def f3(x):
+    return -x**2 + x + 3
+
+
 def derivative(f, x, h):
     return (f(x + h) - f(x - h))/(2 * h)
 
@@ -15,4 +27,5 @@ def solve(f, x0, h):
     return x
 
 
-print(solve(math.sin, math.pi, 0.0001))
+print(derivative(f3, 1, 0.0001))
+print(solve(f3, 1, 0.0001))
