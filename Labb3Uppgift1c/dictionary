@@ -15,7 +15,6 @@ with open("ordlista2.txt", "a+") as f:
         f.seek(0)
         while True:
             if en_rad[position_ord] == " ":
-                word_from_list = en_rad[0:position_ord]
                 position_definition = position_ord
                 definition = ""
                 while True:
