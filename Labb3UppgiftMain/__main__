@@ -34,16 +34,19 @@ def list_insert(word_list, definition_list):
             no_dublicate = 0
             if duplicate == word:
                 print("This word already exists, its definiton is: " + definition_list[position])
-                print("Want to input another word?")
-                print("1: Yes")
-                print("2: No")
-                user_choice = input()
+                while True:
+                    print("Want to input another word?")
+                    print("1: Yes")
+                    print("2: No")
+                    user_choice = input()
+                    if user_choice == "1" or user_choice == "2":
+                        break
+                    else:
+                        print("Retype please")
                 break
             else:
                 no_dublicate = "true"
             position += 1
-        if user_choice != "2" and user_choice != "1":
-            print("Retype please")
         if user_choice == "2" or no_dublicate == "true":
             break
     if user_choice == "1":
@@ -95,19 +98,22 @@ def tuple_insert(list_of_tuples):
             no_dublicate = 0
             if word == list_of_tuples[position][0]:
                 print("This word already exists, its definiton is: " + list_of_tuples[position][1])
-                print("Want to input another word?")
-                print("1: Yes")
-                print("2: No")
-                user_choice = input()
+                while True:
+                    print("Want to input another word?")
+                    print("1: Yes")
+                    print("2: No")
+                    user_choice = input()
+                    if user_choice == "1" or user_choice == "2":
+                        break
+                    else:
+                        print("Retype please")
                 break
             else:
-                no_dublicate = 1
+                no_dublicate = "true"
             if position + 1 == len(list_of_tuples):
                 break
             position += 1
-        if user_choice != "2" and user_choice != "1":
-            print("Retype please")
-        if user_choice == "2" or no_dublicate == 1:
+        if user_choice == "2" or no_dublicate == "true":
             break
     if user_choice == "1":
         print("Description of word: ")
@@ -131,7 +137,8 @@ def tuple_lookup(list_of_tuples):
 
 
 def dictionary_list():
-    dictionary = {}
+    dictionary = {"": ""}
+
     while True:
         menu()
         user_choice = input()
@@ -156,16 +163,19 @@ def dictionary_insert(dictionary):
             no_dublicate = 0
             if duplicate == word:
                 print("This word already exists, its definiton is: " + dictionary[word])
-                print("Want to input another word?")
-                print("1: Yes")
-                print("2: No")
-                user_choice = input()
+                while True:
+                    print("Want to input another word?")
+                    print("1: Yes")
+                    print("2: No")
+                    user_choice = input()
+                    if user_choice == "1" or user_choice == "2":
+                        break
+                    else:
+                        print("Retype please")
                 break
             else:
-                no_dublicate = 1
-        if user_choice != "2" and user_choice != "1":
-            print("Retype please")
-        if user_choice == "2" or no_dublicate == 1:
+                no_dublicate = "true"
+        if user_choice == "2" or no_dublicate == "true":
             break
     if user_choice == "1":
         print("Description of word: ")
@@ -195,7 +205,7 @@ while True:
     print("1: Dictionary made up of two lists")
     print("2: Dictionary made up of a list of pairs of tuples")
     print("3: Dictionary made up of a dictionary")
-    print("4: End this program")
+    print("4: End program")
     user_choice = input()
     if user_choice == "1":
         two_lists()
