@@ -11,34 +11,56 @@ def two_lists():
 
     while True:
         menu()
-        user_input = input()
-        if user_input == "1":
+        user_choice = input()
+        if user_choice == "1":
             list_insert(word_list, definition_list)
-        elif user_input == "2":
+        elif user_choice == "2":
             list_lookup(word_list, definition_list)
-        elif user_input == "3":
+        elif user_choice == "3":
             break
         else:
             print("Try again, this time choose a number 1 through 3")
 
 
 def list_insert(word_list, definition_list):
-    print("Word to insert: ")
-    word = input()
-    word_list.append(word)
-    print("Description of word: ")
-    definition = input()
-    definition_list.append(definition)
-    print("Word added")
+    user_choice = "1"
+    no_dublicate = 0
+
+    while True:
+        print("Word to insert: ")
+        word = input()
+        position = 0
+        for duplicate in word_list:
+            no_dublicate = 0
+            if duplicate == word:
+                print("This word already exists, its definiton is: " + definition_list[position])
+                print("Want to input another word?")
+                print("1: Yes")
+                print("2: No")
+                user_choice = input()
+                break
+            else:
+                no_dublicate = "true"
+            position += 1
+        if user_choice != "2" and user_choice != "1":
+            print("Retype please")
+        if user_choice == "2" or no_dublicate == "true":
+            break
+    if user_choice == "1":
+        word_list.append(word)
+        print("Description of word: ")
+        definition = input()
+        definition_list.append(definition)
+        print("Word added")
 
 
 def list_lookup(word_list, definition_list):
     m = 0
     print("Word to lookup: ")
-    user_input = input()
+    word_lookup = input()
     while True:
-        if user_input == word_list[m]:
-            print("Description for word \"" + user_input + "\": " + definition_list[m] + "\n")
+        if word_lookup == word_list[m]:
+            print("Description for word \"" + word_lookup + "\": " + definition_list[m])
             break
         m += 1
         if m == len(word_list):
@@ -47,37 +69,60 @@ def list_lookup(word_list, definition_list):
 
 
 def tuple_list():
-    list_of_tuples = [(["", ""])]
+    list_of_tuples = [("", "")]
 
     while True:
         menu()
-        user_input = input()
-        if user_input == "1":
+        user_choice = input()
+        if user_choice == "1":
             tuple_insert(list_of_tuples)
-        elif user_input == "2":
+        elif user_choice == "2":
             tuple_lookup(list_of_tuples)
-        elif user_input == "3":
+        elif user_choice == "3":
             break
         else:
             print("Try again, this time choose a number 1 through 3")
 
 
 def tuple_insert(list_of_tuples):
-    print("Word to insert: ")
-    word = input()
-    print("Description of word: ")
-    definition = input()
-    list_of_tuples.append([word, definition])
-    print("Word added")
+    user_choice = "1"
+
+    while True:
+        print("Word to insert: ")
+        word = input()
+        position = 0
+        while True:
+            no_dublicate = 0
+            if word == list_of_tuples[position][0]:
+                print("This word already exists, its definiton is: " + list_of_tuples[position][1])
+                print("Want to input another word?")
+                print("1: Yes")
+                print("2: No")
+                user_choice = input()
+                break
+            else:
+                no_dublicate = 1
+            if position + 1 == len(list_of_tuples):
+                break
+            position += 1
+        if user_choice != "2" and user_choice != "1":
+            print("Retype please")
+        if user_choice == "2" or no_dublicate == 1:
+            break
+    if user_choice == "1":
+        print("Description of word: ")
+        definition = input()
+        list_of_tuples.append([word, definition])
+        print("Word added")
 
 
 def tuple_lookup(list_of_tuples):
     print("Word to lookup: ")
-    user_input = input()
+    word_lookup = input()
     m = 0
     while True:
-        if user_input == list_of_tuples[m][0]:
-            print("Description for word \"" + user_input + "\": " + list_of_tuples[m][1] + "\n")
+        if word_lookup == list_of_tuples[m][0]:
+            print("Description for word \"" + word_lookup + "\": " + list_of_tuples[m][1])
             break
         m += 1
         if m == len(list_of_tuples):
@@ -89,32 +134,52 @@ def dictionary_list():
     dictionary = {}
     while True:
         menu()
-        user_input = input()
-        if user_input == "1":
+        user_choice = input()
+        if user_choice == "1":
             dictionary_insert(dictionary)
-        elif user_input == "2":
+        elif user_choice == "2":
             dictionary_lookup(dictionary)
-        elif user_input == "3":
+        elif user_choice == "3":
             break
         else:
             print("Try again, this time choose a number 1 through 3")
 
 
 def dictionary_insert(dictionary):
-    print("Word to insert: ")
-    word = input()
-    print("Description of word: ")
-    definition = input()
-    dictionary[word] = definition
-    print("Word added")
+    user_choice = "1"
+    no_dublicate = 0
+
+    while True:
+        print("Word to insert: ")
+        word = input()
+        for duplicate in dictionary:
+            no_dublicate = 0
+            if duplicate == word:
+                print("This word already exists, its definiton is: " + dictionary[word])
+                print("Want to input another word?")
+                print("1: Yes")
+                print("2: No")
+                user_choice = input()
+                break
+            else:
+                no_dublicate = 1
+        if user_choice != "2" and user_choice != "1":
+            print("Retype please")
+        if user_choice == "2" or no_dublicate == 1:
+            break
+    if user_choice == "1":
+        print("Description of word: ")
+        definition = input()
+        dictionary[word] = definition
+        print("Word added")
 
 
 def dictionary_lookup(dictionary):
     print("Word to lookup: ")
-    user_input = input()
+    word_lookup = input()
     for key in dictionary:
-        if user_input == key:
-            print("Description for " + user_input + ": " + dictionary[key])
+        if word_lookup == key:
+            print("Description for " + word_lookup + ": " + dictionary[key])
             break
 
 
