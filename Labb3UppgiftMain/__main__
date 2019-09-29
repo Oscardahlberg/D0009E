@@ -1,0 +1,144 @@
+
+# Created by Oscar Dahlberg for course d009e 2019-09-29 970314-6994
+
+
+def two_lists():
+    word_list = [0]
+    word_list[0] = ""
+
+    definition_list = [0]
+    definition_list[0] = ""
+
+    while True:
+        menu()
+        user_input = input()
+        if user_input == "1":
+            list_insert(word_list, definition_list)
+        elif user_input == "2":
+            list_lookup(word_list, definition_list)
+        elif user_input == "3":
+            break
+        else:
+            print("Try again, this time choose a number 1 through 3")
+
+
+def list_insert(word_list, definition_list):
+    print("Word to insert: ")
+    word = input()
+    word_list.append(word)
+    print("Description of word: ")
+    definition = input()
+    definition_list.append(definition)
+    print("Word added")
+
+
+def list_lookup(word_list, definition_list):
+    m = 0
+    print("Word to lookup: ")
+    user_input = input()
+    while True:
+        if user_input == word_list[m]:
+            print("Description for word \"" + user_input + "\": " + definition_list[m] + "\n")
+            break
+        m += 1
+        if m == len(word_list):
+            print("Word not found")
+            break
+
+
+def tuple_list():
+    list_of_tuples = [(["", ""])]
+
+    while True:
+        menu()
+        user_input = input()
+        if user_input == "1":
+            tuple_insert(list_of_tuples)
+        elif user_input == "2":
+            tuple_lookup(list_of_tuples)
+        elif user_input == "3":
+            break
+        else:
+            print("Try again, this time choose a number 1 through 3")
+
+
+def tuple_insert(list_of_tuples):
+    print("Word to insert: ")
+    word = input()
+    print("Description of word: ")
+    definition = input()
+    list_of_tuples.append([word, definition])
+    print("Word added")
+
+
+def tuple_lookup(list_of_tuples):
+    print("Word to lookup: ")
+    user_input = input()
+    m = 0
+    while True:
+        if user_input == list_of_tuples[m][0]:
+            print("Description for word \"" + user_input + "\": " + list_of_tuples[m][1] + "\n")
+            break
+        m += 1
+        if m == len(list_of_tuples):
+            print("Word not found")
+            break
+
+
+def dictionary_list():
+    dictionary = {}
+    while True:
+        menu()
+        user_input = input()
+        if user_input == "1":
+            dictionary_insert(dictionary)
+        elif user_input == "2":
+            dictionary_lookup(dictionary)
+        elif user_input == "3":
+            break
+        else:
+            print("Try again, this time choose a number 1 through 3")
+
+
+def dictionary_insert(dictionary):
+    print("Word to insert: ")
+    word = input()
+    print("Description of word: ")
+    definition = input()
+    dictionary[word] = definition
+    print("Word added")
+
+
+def dictionary_lookup(dictionary):
+    print("Word to lookup: ")
+    user_input = input()
+    for key in dictionary:
+        if user_input == key:
+            print("Description for " + user_input + ": " + dictionary[key])
+            break
+
+
+def menu():
+    print("Menu for dictionary")
+    print("1: Insert")
+    print("2: Lookup")
+    print("3: Exit Program")
+
+
+while True:
+    print("Which type of dictionary do you want to try?")
+    print("1: Dictionary made up of two lists")
+    print("2: Dictionary made up of a list of pairs of tuples")
+    print("3: Dictionary made up of a dictionary")
+    print("4: End this program")
+    user_choice = input()
+    if user_choice == "1":
+        two_lists()
+    elif user_choice == "2":
+        tuple_list()
+    elif user_choice == "3":
+        dictionary_list()
+    elif user_choice == "4":
+        break
+    else:
+        print("Try again, this time choose a number 1 through 4")
