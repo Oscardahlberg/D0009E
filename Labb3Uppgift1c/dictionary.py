@@ -16,11 +16,8 @@ while True:
         user_input = input()
         m = 0
         for key in dictionary:
-            if user_input == key:
-                print("Description for " + user_input + ": " + dictionary[key] + "\n")
-                break
-        if m == 1:
-            print("Word not found")
+            print("Description for " + user_input + ": " + dictionary[user_input])
+            break
     if user_choice == "1":
         print("Word to insert: ")
         word = input()
