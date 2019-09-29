@@ -1,6 +1,5 @@
 
-# Created by Oscar Dahlberg for course d0015e Introduction to programming Labb 3 Uppgift 1a
-# Finished 2019-09-10
+# Created by Oscar Dahlberg for course D009e 2019-09-29 970314-6994
 
 ord_lista = [0]
 ord_lista[0] = ""
