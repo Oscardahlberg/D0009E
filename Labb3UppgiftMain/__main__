@@ -3,11 +3,8 @@
 
 
 def two_lists():
-    word_list = [0]
-    word_list[0] = ""
-
-    definition_list = [0]
-    definition_list[0] = ""
+    word_list = [""]
+    definition_list = [""]
 
     while True:
         menu()
@@ -58,17 +55,16 @@ def list_insert(word_list, definition_list):
 
 
 def list_lookup(word_list, definition_list):
-    m = 0
+    position = 0
     print("Word to lookup: ")
     word_lookup = input()
-    while True:
-        if word_lookup == word_list[m]:
-            print("Description for word \"" + word_lookup + "\": " + definition_list[m])
+    for word in word_list:
+        if word_lookup == word:
+            print("Description for word \"" + word_lookup + "\": " + definition_list[position])
             break
-        m += 1
-        if m == len(word_list):
+        position += 1
+        if position == len(word_list):
             print("Word not found")
-            break
 
 
 def tuple_list():
@@ -125,13 +121,13 @@ def tuple_insert(list_of_tuples):
 def tuple_lookup(list_of_tuples):
     print("Word to lookup: ")
     word_lookup = input()
-    m = 0
+    position = 0
     while True:
-        if word_lookup == list_of_tuples[m][0]:
-            print("Description for word \"" + word_lookup + "\": " + list_of_tuples[m][1])
+        if word_lookup == list_of_tuples[position][0]:
+            print("Description for word \"" + word_lookup + "\": " + list_of_tuples[position][1])
             break
-        m += 1
-        if m == len(list_of_tuples):
+        position += 1
+        if position == len(list_of_tuples):
             print("Word not found")
             break
 
@@ -189,7 +185,7 @@ def dictionary_lookup(dictionary):
     word_lookup = input()
     for key in dictionary:
         if word_lookup == key:
-            print("Description for " + word_lookup + ": " + dictionary[key])
+            print("Description for \"" + word_lookup + "\": " + dictionary[key])
             break
 
 
