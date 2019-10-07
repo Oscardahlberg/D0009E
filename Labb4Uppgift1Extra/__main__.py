@@ -326,10 +326,14 @@ class Telefonbok:
     def load(self):
         self.telefonbok = []
 
-        file = open("telefon_bok", "r")
-        for line in file:
-            self.telefonbok.append(line.replace("\n", ""))
-        file.close()
+        try:
+            file = open("telefon_bok", "r")
+            for line in file:
+                self.telefonbok.append(line.replace("\n", ""))
+            file.close()
+        except FileNotFoundError:
+            print("Text file with name telefon_bok not found")
+
 
     def quit(self):
         self.on = False
