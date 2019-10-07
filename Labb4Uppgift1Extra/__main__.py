@@ -15,8 +15,6 @@ class Telefonbok:
         self.word1 = ""
         self.word2 = ""
         self.word3 = ""
-        self.length = 0
-        self.number = 0
         self.word_max = 0
         self.word_min = 0
         self.word_count = 0
@@ -106,55 +104,59 @@ class Telefonbok:
 
         return name_counter
 
+    def add_fix(self):
+        self.double_str = False
+        self.word_max = 2
+        self.word_min = 2
+        self.correct_user_input(4)
+        self.seperate()
+        if self.input_check():
+            return True
+
+    def lookup_fix(self):
+        self.double_str = False
+        self.word_max = 1
+        self.word_min = 1
+        self.correct_user_input(7)
+        self.seperate()
+        if self.input_check():
+            return True
+
+    def alias_change_fix(self, length):
+        self.double_str = False
+        self.word_max = 3
+        self.word_min = 2
+        self.correct_user_input(length)
+        self.seperate()
+        if self.word_count == 2:
+            self.double_str = True
+        if self.input_check():
+            return True
+
+    def remove_fix(self):
+        self.double_str = False
+        self.word_max = 2
+        self.word_min = 1
+        self.correct_user_input(7)
+        self.seperate()
+        if self.input_check():
+            return True
+
     def menu(self):
         if self.user_input[:3] == "add":
-            self.double_str = False
-            self.word_max = 2
-            self.word_min = 2
-            self.correct_user_input(4)
-            self.seperate()
-            if self.input_check():
-                self.add()
+            self.add()
 
         elif self.user_input[:6] == "lookup":
-            self.double_str = False
-            self.word_max = 1
-            self.word_min = 1
-            self.correct_user_input(7)
-            self.seperate()
-            if self.input_check():
-                self.lookup()
+            self.lookup()
 
         elif self.user_input[:5] == "alias":
-            self.double_str = False
-            self.word_max = 3
-            self.word_min = 2
-            self.correct_user_input(6)
-            self.seperate()
-            if self.word_count == 2:
-                self.double_str = True
-            if self.input_check():
-                self.alias()
+            self.alias()
 
         elif self.user_input[:6] == "change":
-            self.double_str = False
-            self.word_max = 3
-            self.word_min = 2
-            self.correct_user_input(7)
-            self.seperate()
-            if self.word_count == 2:
-                self.double_str = True
-            if self.input_check():
-                self.change()
+            self.change()
 
         elif self.user_input[:6] == "remove":
-            self.double_str = False
-            self.word_max = 2
-            self.word_min = 1
-            self.correct_user_input(7)
-            self.seperate()
-            if self.input_check():
-                self.remove()
+            self.remove()
 
         elif self.user_input[:4] == "save":
             self.save()
@@ -226,12 +228,20 @@ class Telefonbok:
         self.word2 = self.word2.replace(" ", "")
 
     def add(self):
+
+        if not self.add_fix():
+            return
+
         if self.lookup_number_bolean():
             print("This number is already listed")
         else:
             self.telefonbok.append(self.word2 + ";" + self.word1 + ";")
 
     def lookup(self):
+
+        if not self.lookup_fix():
+            return
+
         length = 0
         bolean = False
 
@@ -257,6 +267,10 @@ class Telefonbok:
             length += 1
 
     def alias(self):
+
+        if not self.alias_change_fix(6):
+            return
+
         self.lookup_name_counter()
 
         if self.word_count == 3:
@@ -275,6 +289,10 @@ class Telefonbok:
                 print("Name is already in list")
 
     def change(self):
+
+        if not self.alias_change_fix(7):
+            return
+
         self.lookup_name_counter()
 
         if self.word_count == 3:
@@ -290,6 +308,10 @@ class Telefonbok:
                 print("Multiple names found, please specifiy with number")
 
     def remove(self):
+
+        if not self.remove_fix():
+            return
+
         if self.word_count == 1:
             self.word_count = 2
         else:
@@ -333,7 +355,6 @@ class Telefonbok:
             file.close()
         except FileNotFoundError:
             print("Text file with name telefon_bok not found")
-
 
     def quit(self):
         self.on = False
