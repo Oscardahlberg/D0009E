@@ -41,7 +41,6 @@ class Telefonbok:
         self.length = 0
         self.position = 0
         self.word_already_exists = False
-        self.name_check = False
 
         self.loop()
 
@@ -100,7 +99,6 @@ class Telefonbok:
         self.length = 0
         self.name_counter = 0
         self.word_already_exists = False
-        self.name_check = False
 
         for line in self.telefonbok:
             name = ""
@@ -117,7 +115,7 @@ class Telefonbok:
                     if self.word_count == 3:
                         if number == self.word2:
                             if name == self.word1:
-                                self.name_check = True
+                                self.word_already_exists = True
                             if name == self.word3:
                                 self.name_counter += 1
                             self.position = self.length
@@ -332,10 +330,13 @@ class Telefonbok:
         self.lookup_name_counter()
 
         if self.word_count == 3:
-            if self.name_counter == 0:
-                self.telefonbok[self.position] += self.word3 + ";"
+            if self.word_already_exists:
+                if self.name_counter == 0:
+                    self.telefonbok[self.position] += self.word3 + ";"
+                else:
+                    print("Name is already in list")
             else:
-                print("Name is already in list")
+                print("Name not in list")
 
         if self.word_count == 2:
             if not self.word_already_exists:
@@ -357,16 +358,22 @@ class Telefonbok:
         self.lookup_name_counter()
 
         if self.word_count == 3:
-            if self.name_check:
-                self.telefonbok[self.position] = self.telefonbok[self.position].replace(self.word1, self.word3)
+            if self.word_already_exists:
+                if self.name_counter == 1:
+                    print("Name already in list")
+                else:
+                    self.telefonbok[self.position] = self.telefonbok[self.position].replace(self.word1, self.word3)
             else:
                 print("Name not in list")
 
         if self.word_count == 2:
-            if self.name_counter == 1:
-                self.telefonbok[self.position] = self.telefonbok[self.position].replace(self.word1, self.word2)
+            if self.word_already_exists:
+                print("Name already in list")
             else:
-                print("Multiple names found, please specifiy with number")
+                if self.name_counter == 1:
+                    self.telefonbok[self.position] = self.telefonbok[self.position].replace(self.word1, self.word2)
+                else:
+                    print("Multiple names found, please specifiy with number")
 
     def remove(self):
         # Removes specified name
@@ -385,7 +392,7 @@ class Telefonbok:
         self.lookup_name_counter()
 
         if self.word_count == 3:
-            if self.name_check:
+            if self.word_already_exists:
                 if self.lookup_length() == 1:
                     self.telefonbok.pop(self.position)
                 else:
