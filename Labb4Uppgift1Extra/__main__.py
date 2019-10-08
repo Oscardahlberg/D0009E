@@ -1,5 +1,21 @@
 
+# =========================================================
+# Writen by Oscar Dahlberg for course D009E at 2019-10-07
+
+# This program is a telephone book where the user can
+# add, change, create aliases and lookup names from a list
+# The list can be saved with the command "save" where it will
+# be saved onto a file in the directory named "telefon_bok"
+# If no such file exists, it will create one
+
+# A more complete command sheet exists on Github
+# =========================================================
+
+
 def int_check(symbol):
+    # This function checks that "symbol" contain any integers, and will return True if it does.
+    # otherwise it will return False
+
     try:
         int(symbol)
         return True
@@ -9,6 +25,8 @@ def int_check(symbol):
 
 class Telefonbok:
     def __init__(self):
+        # Creates the necesary variables for the program and starts the main function "loop"
+
         self.on = True
         self.telefonbok = []
         self.user_input = ""
@@ -25,30 +43,40 @@ class Telefonbok:
         self.word_already_exists = False
         self.name_check = False
 
-    def reset_word2(self):
-        self.word2 = ""
+        self.loop()
 
     def loop(self):
-        self.set_user_input()
-        self.menu()
-        self.reset_words()
-        print(self.telefonbok)
+        # Main loop of this program, will run until bolean variable "on" is False
+
+        while self.on:
+            self.set_user_input()
+            self.menu()
+            self.reset_words()
+            print(self.telefonbok)
 
     def reset_words(self):
+        # Resets user input
+        # This function will be run every cycle to make sure that the strings are empty once they are used again
+
         self.word1 = ""
         self.word2 = ""
         self.word3 = ""
 
     def set_user_input(self):
+        # Reads user input and creates the correct prompt
+
         self.user_input = input("telebok> ")
 
     def correct_user_input(self, position):
+        # Removes the words "add " or "change " from the input so that the input can be further proccessed
+        # Amount of strings removed from user_input is based on the intager "position"
+
         self.user_input = self.user_input[position:]
 
-    def get_on(self):
-        return self.on
-
     def lookup_number_bolean(self):
+        # Looks in main list to see if the number "word2" exists
+        # It has already been checked so that "word2" is always a number going into this function
+
         for line in self.telefonbok:
             number = ""
             for symbol in line:
@@ -61,6 +89,13 @@ class Telefonbok:
         return False
 
     def lookup_name_counter(self):
+        # This function has mutiple uses
+        # 1. Checks if a word the the user has input already exists in the list
+        # 2. Checks how many times a word exists in the list
+        # 3. Checks the position of where a word already exists
+        # This is so that the function can be used for a multiple of uses
+        # instead of having one function for each use
+
         self.position = 0
         self.length = 0
         self.name_counter = 0
@@ -96,6 +131,8 @@ class Telefonbok:
             self.length += 1
 
     def lookup_length(self):
+        # Checks how many aliases exists at the index "position" in the list
+
         name_counter = -1
 
         for symbol in self.telefonbok[self.position]:
@@ -105,6 +142,10 @@ class Telefonbok:
         return name_counter
 
     def add_fix(self):
+        # When adding a word, the two words will be a string and a number and the maximum
+        # amount of words allowed will be 2
+        # This is all to make sure that the user input is correctly formated
+
         self.double_str = False
         self.word_max = 2
         self.word_min = 2
@@ -114,6 +155,8 @@ class Telefonbok:
             return True
 
     def lookup_fix(self):
+        # Makes sure that the user input is correctly formated for the "lookup" function
+
         self.double_str = False
         self.word_max = 1
         self.word_min = 1
@@ -123,6 +166,8 @@ class Telefonbok:
             return True
 
     def alias_change_fix(self, length):
+        # Makes sure that the user input is correctly formated for the "alias" and "change" function
+
         self.double_str = False
         self.word_max = 3
         self.word_min = 2
@@ -134,6 +179,8 @@ class Telefonbok:
             return True
 
     def remove_fix(self):
+        # Makes sure that the user input is correctly formated for the "remove" function
+
         self.double_str = False
         self.word_max = 2
         self.word_min = 1
@@ -143,6 +190,8 @@ class Telefonbok:
             return True
 
     def menu(self):
+        # Checks the user input for the first couple of strings and then decides which function to run
+
         if self.user_input[:3] == "add":
             self.add()
 
@@ -171,6 +220,8 @@ class Telefonbok:
             print("Wrong format used")
 
     def input_check(self):
+        # Checks the input for the correct amount of words and numbers
+        # Meaning the input is correctly formated
 
         if not self.word_max >= self.word_count >= self.word_min:
             print("Wrong format used")
@@ -212,6 +263,7 @@ class Telefonbok:
         return True
 
     def seperate(self):
+        # This function will seperate the words into three parts which will get further proccessed later on
 
         self.word_count = 1
         for symbol in self.user_input:
@@ -228,6 +280,8 @@ class Telefonbok:
         self.word2 = self.word2.replace(" ", "")
 
     def add(self):
+        # Adds the inputed name and number into the list while checking so that the
+        # word does not already exist
 
         if not self.add_fix():
             return
@@ -238,6 +292,7 @@ class Telefonbok:
             self.telefonbok.append(self.word2 + ";" + self.word1 + ";")
 
     def lookup(self):
+        # Lookups the numbers correlating with the inputed name
 
         if not self.lookup_fix():
             return
@@ -267,6 +322,9 @@ class Telefonbok:
             length += 1
 
     def alias(self):
+        # Adds a alias of a name with the same number to the list
+        # If there are mutiple numbers with the same name it will send out a error message
+        # asking for a number
 
         if not self.alias_change_fix(6):
             return
@@ -289,6 +347,9 @@ class Telefonbok:
                 print("Name is already in list")
 
     def change(self):
+        # Changes a specified name with a new name
+        # If there are mutiple numbers with the same name it will send out a error message
+        # asking for a number
 
         if not self.alias_change_fix(7):
             return
@@ -308,6 +369,10 @@ class Telefonbok:
                 print("Multiple names found, please specifiy with number")
 
     def remove(self):
+        # Removes specified name
+        # If there are mutiple numbers with the same name it will send out a error message
+        # asking for a number
+        # If there is only one name with a number it will remove both of them from the list
 
         if not self.remove_fix():
             return
@@ -340,12 +405,19 @@ class Telefonbok:
                 print("Multiple names found, please specifiy with number")
 
     def save(self):
+        # Saves the list onto a txt file in the directory with the name telefon_bok
+        # If no such list exists it will create one and save the list onto it
+
         file = open("telefon_bok", "w")
         for line in self.telefonbok:
             file.write(line + "\n")
         file.close()
 
     def load(self):
+        # Loads a file in the directory named telefon_bok and creates a list
+        # from the information in every line
+        # If no such file exists it will print out an error
+
         self.telefonbok = []
 
         try:
@@ -357,9 +429,9 @@ class Telefonbok:
             print("Text file with name telefon_bok not found")
 
     def quit(self):
+        # Quits the program
+
         self.on = False
 
 
 x = Telefonbok()
-while x.get_on():
-    x.loop()
