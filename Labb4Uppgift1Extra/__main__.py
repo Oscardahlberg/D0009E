@@ -100,36 +100,35 @@ class Telefonbok:
         self.name_counter = 0
         self.word_already_exists = False
 
-        for line in self.telefonbok:
+        for line in self.telefonbok:   # For every index in telefonbok
             name = ""
             number = ""
-            for symbol in line:
+            for symbol in line:  # For every string in index
 
-                if int_check(symbol) and not symbol == ";":
+                if int_check(symbol):  # Reads number from index
                     number += symbol
-                if symbol == ";":
-                    name = ""
-                if not int_check(symbol) and not symbol == ";":
+                if not int_check(symbol) and not symbol == ";":   # Reads names from index
                     name += symbol
 
-                    if self.word_count == 3:
+                if symbol == ";":  # When a name has been read from the index
+                    if self.word_count == 3:  # If the user input has three words
                         if number == self.word2:
                             if name == self.word1:
                                 self.word_already_exists = True
                             if name == self.word3:
                                 self.name_counter += 1
                             self.position = self.length
-                    else:
+
+                    else:  # If the user input has two words
                         if name == self.word1:
                             self.name_counter += 1
                             self.position = self.length
-                        if name == self.word2:
-                            self.word_already_exists = True
 
+                    name = ""
             self.length += 1
 
     def lookup_length(self):
-        # Checks how many aliases exists at the index "position" in the list
+        # Checks how many names exists at the index "position" in the list
 
         name_counter = -1
 
@@ -138,6 +137,21 @@ class Telefonbok:
                 name_counter += 1
 
         return name_counter
+
+    def lookup_alias(self):
+        # Checks if a alias already exists in the list
+
+        name = ""
+
+        for symbol in self.telefonbok[self.position]:
+            if not int_check(symbol) and not symbol == ";":
+                name += symbol
+            if symbol == ";":
+                if name == self.word2:
+                    self.word_already_exists = True
+                name = ""
+
+        return self.word_already_exists
 
     def add_fix(self):
         # When adding a word, the two words will be a string and a number and the maximum
@@ -339,7 +353,7 @@ class Telefonbok:
                 print("Name not in list")
 
         if self.word_count == 2:
-            if not self.word_already_exists:
+            if not self.lookup_alias():
                 if self.name_counter == 1:
                     self.telefonbok[self.position] += self.word2 + ";"
                 else:
@@ -367,7 +381,7 @@ class Telefonbok:
                 print("Name not in list")
 
         if self.word_count == 2:
-            if self.word_already_exists:
+            if self.lookup_alias():
                 print("Name already in list")
             else:
                 if self.name_counter == 1:
