@@ -13,7 +13,7 @@
 
 
 def int_check(symbol):
-    # This function checks that "symbol" contain any integers, and will return True if it does.
+    # This function checks that 'symbol' contain any integers, and will return True if it does.
     # otherwise it will return False
 
     try:
@@ -25,7 +25,7 @@ def int_check(symbol):
 
 class Telefonbok:
     def __init__(self):
-        # Creates the necesary variables for the program and starts the main function "loop"
+        # Creates the necesary variables for the program and starts the main function 'loop'
 
         self.on = True
         self.telefonbok = []
@@ -68,8 +68,8 @@ class Telefonbok:
         self.user_input = self.user_input[position:]
 
     def lookup_number_bolean(self, number_lookup):
-        # Looks in main list to see if the number "word2" exists
-        # It has already been checked so that "word2" is always a number going into this function
+        # Looks in main list to see if the number 'word2' exists
+        # It has already been checked so that 'word2' is always a number going into this function
 
         for line in self.telefonbok:
             number = ""
@@ -138,7 +138,7 @@ class Telefonbok:
         return self.word_already_exists
 
     def add_fix(self):
-        # Makes sure that the user input is correctly formated for the "add" function
+        # Makes sure that the user input is correctly formated for the 'add' function
 
         self.double_str = False
 
@@ -153,7 +153,7 @@ class Telefonbok:
         return False
 
     def lookup_fix(self):
-        # Makes sure that the user input is correctly formated for the "lookup" function
+        # Makes sure that the user input is correctly formated for the 'lookup' function
 
         self.double_str = False
         self.word_max = 1
