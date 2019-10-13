@@ -29,37 +29,33 @@ class Telefonbok:
 
         self.on = True
         self.telefonbok = []
+
         self.user_input = ""
         self.word1 = ""
         self.word2 = ""
         self.word3 = ""
+
         self.word_max = 0
         self.word_min = 0
+
         self.word_count = 0
-        self.double_str = False
         self.name_counter = 0
-        self.length = 0
+        self.number = 0
         self.position = 0
+
+        self.double_str = False
+        self.double_int = False
         self.word_already_exists = False
 
         self.loop()
 
     def loop(self):
-        # Main loop of this program, will run until bolean variable "on" is False
+        # Main loop of this program, will run until bolean variable 'on' is False
 
         while self.on:
             self.set_user_input()
             self.menu()
-            self.reset_words()
             print(self.telefonbok)
-
-    def reset_words(self):
-        # Resets user input
-        # This function will be run every cycle to make sure that the strings are empty once they are used again
-
-        self.word1 = ""
-        self.word2 = ""
-        self.word3 = ""
 
     def set_user_input(self):
         # Reads user input and creates the correct prompt
@@ -67,36 +63,33 @@ class Telefonbok:
         self.user_input = input("telebok> ")
 
     def correct_user_input(self, position):
-        # Removes the words "add " or "change " from the input so that the input can be further proccessed
-        # Amount of strings removed from user_input is based on the intager "position"
+        # Removes the words 'add ' or 'change ' from the input so that the input can be further processed
 
         self.user_input = self.user_input[position:]
 
-    def lookup_number_bolean(self):
+    def lookup_number_bolean(self, number_lookup):
         # Looks in main list to see if the number "word2" exists
         # It has already been checked so that "word2" is always a number going into this function
 
         for line in self.telefonbok:
             number = ""
             for symbol in line:
+
                 number += symbol
                 if symbol == ";":
                     number = number[:-1]
                     break
-            if number == self.word2:
+            if number == number_lookup:
                 return True
         return False
 
     def lookup_name_counter(self):
         # This function has mutiple uses
-        # 1. Checks if a word the the user has input already exists in the list
-        # 2. Checks how many times a word exists in the list
-        # 3. Checks the position of where a word already exists
-        # This is so that the function can be used for a multiple of uses
-        # instead of having one function for each use
+        # 1. Checks if a name or number the user wants changed or added already exists in the list
+        # 2. Remembers the index for a specific name and number in the list so that it can be changed or removed
 
+        length = 0
         self.position = 0
-        self.length = 0
         self.name_counter = 0
         self.word_already_exists = False
 
@@ -114,29 +107,20 @@ class Telefonbok:
                     if self.word_count == 3:  # If the user input has three words
                         if number == self.word2:
                             if name == self.word1:
+                                self.number = number
                                 self.word_already_exists = True
                             if name == self.word3:
                                 self.name_counter += 1
-                            self.position = self.length
+                            self.position = length
 
                     else:  # If the user input has two words
                         if name == self.word1:
                             self.name_counter += 1
-                            self.position = self.length
+                            self.number = number
+                            self.position = length
 
                     name = ""
-            self.length += 1
-
-    def lookup_length(self):
-        # Checks how many names exists at the index "position" in the list
-
-        name_counter = -1
-
-        for symbol in self.telefonbok[self.position]:
-            if symbol == ";":
-                name_counter += 1
-
-        return name_counter
+            length += 1
 
     def lookup_alias(self):
         # Checks if a alias already exists in the list
@@ -154,17 +138,19 @@ class Telefonbok:
         return self.word_already_exists
 
     def add_fix(self):
-        # When adding a word, the two words will be a string and a number and the maximum
-        # amount of words allowed will be 2
-        # This is all to make sure that the user input is correctly formated
+        # Makes sure that the user input is correctly formated for the "add" function
 
         self.double_str = False
+
         self.word_max = 2
         self.word_min = 2
+
         self.correct_user_input(4)
         self.seperate()
+
         if self.input_check():
             return True
+        return False
 
     def lookup_fix(self):
         # Makes sure that the user input is correctly formated for the "lookup" function
@@ -172,68 +158,69 @@ class Telefonbok:
         self.double_str = False
         self.word_max = 1
         self.word_min = 1
+
         self.correct_user_input(7)
         self.seperate()
+
         if self.input_check():
             return True
+        return False
 
-    def alias_change_fix(self, length):
-        # Makes sure that the user input is correctly formated for the "alias" and "change" function
+    def alias_fix(self):
+        # Makes sure that the user input is correctly formated for the "alias" function
 
+        self.double_int = False
         self.double_str = False
+
         self.word_max = 3
         self.word_min = 2
-        self.correct_user_input(length)
+
+        self.correct_user_input(6)
         self.seperate()
+
         if self.word_count == 2:
             self.double_str = True
         if self.input_check():
             return True
+        return False
+
+    def change_fix(self):
+        # Makes sure that the user input is correctly formated for the "change" function
+
+        self.double_str = False
+        self.double_int = False
+
+        self.word_max = 3
+        self.word_min = 2
+
+        self.correct_user_input(7)
+        self.seperate()
+
+        if self.word_count == 3:
+            self.double_int = True
+
+        if self.input_check():
+            return True
+        return False
 
     def remove_fix(self):
         # Makes sure that the user input is correctly formated for the "remove" function
 
         self.double_str = False
+
         self.word_max = 2
         self.word_min = 1
+
         self.correct_user_input(7)
         self.seperate()
         if self.input_check():
             return True
-
-    def menu(self):
-        # Checks the user input for the first couple of strings and then decides which function to run
-
-        if self.user_input[:3] == "add":
-            self.add()
-
-        elif self.user_input[:6] == "lookup":
-            self.lookup()
-
-        elif self.user_input[:5] == "alias":
-            self.alias()
-
-        elif self.user_input[:6] == "change":
-            self.change()
-
-        elif self.user_input[:6] == "remove":
-            self.remove()
-
-        elif self.user_input[:4] == "save":
-            self.save()
-
-        elif self.user_input[:4] == "load":
-            self.load()
-
-        elif self.user_input[:4] == "quit":
-            self.quit()
-
-        else:
-            print("Wrong format used")
+        return False
 
     def input_check(self):
-        # Checks the input for the correct amount of words and numbers
-        # Meaning the input is correctly formated
+        # Checks the user input so that it is correctly formated
+        # Checks so that the names does not contain any numbers and the numbers
+        # does not contain any letters
 
         if not self.word_max >= self.word_count >= self.word_min:
             print("Wrong format used")
@@ -243,12 +230,6 @@ class Telefonbok:
             if int_check(symbol):
                 print("Wrong format used")
                 return False
-
-        if self.word_count == 3:
-            for symbol in self.word2:
-                if not int_check(symbol):
-                    print("Wrong format used")
-                    return False
 
         if self.word_count == 2:
             for symbol in self.word2:
@@ -262,22 +243,36 @@ class Telefonbok:
                         return False
 
         if self.word_count == 3:
-            for symbol in self.word3:
-                if int_check(symbol):
+            for symbol in self.word2:
+                if not int_check(symbol):
                     print("Wrong format used")
                     return False
+            for symbol in self.word3:
+                if self.double_int:
+                    if not int_check(symbol):
+                        print("Wrong format used")
+                        return False
+                else:
+                    if int_check(symbol):
+                        print("Wrong format used")
+                        return False
 
-        if self.word_count == 2 or self.word_count == 3:
-            if self.word1 == self.word2 or self.word1 == self.word3:
-                print("Name is already in list")
-                return False
+        if self.word1 == self.word2 or self.word1 == self.word3:
+            print("Name is already in list")
+            return False
 
         return True
 
     def seperate(self):
-        # This function will seperate the words into three parts which will get further proccessed later on
+        # Seperates the words into three individual
+        # parts to get futher processed
 
         self.word_count = 1
+
+        self.word1 = ""
+        self.word2 = ""
+        self.word3 = ""
+
         for symbol in self.user_input:
             if self.word_count == 1:
                 self.word1 += symbol
@@ -291,20 +286,64 @@ class Telefonbok:
         self.word1 = self.word1.replace(" ", "")
         self.word2 = self.word2.replace(" ", "")
 
+    def menu(self):
+
+        if self.user_input[:3] == "add":
+            self.add()
+
+        elif self.user_input[:6] == "lookup":
+            if len(self.telefonbok) == 0:
+                print("Telefonbok is empty")
+                return
+            self.lookup()
+
+        elif self.user_input[:5] == "alias":
+            if len(self.telefonbok) == 0:
+                print("Telefonbok is empty")
+                return
+            self.alias()
+
+        elif self.user_input[:6] == "change":
+            if len(self.telefonbok) == 0:
+                print("Telefonbok is empty")
+                return
+            self.change()
+
+        elif self.user_input[:6] == "remove":
+            if len(self.telefonbok) == 0:
+                print("Telefonbok is empty")
+                return
+            self.remove()
+
+        elif self.user_input[:4] == "save":
+            if len(self.telefonbok) == 0:
+                print("Telefonbok is empty")
+                return
+            self.save()
+
+        elif self.user_input[:4] == "load":
+            self.load()
+
+        elif self.user_input[:4] == "quit":
+            self.quit()
+
+        else:
+            print("Wrong format used")
+
     def add(self):
         # Adds the inputed name and number into the list while checking so that the
-        # word does not already exist
+        # number is not already registered
 
         if not self.add_fix():
             return
 
-        if self.lookup_number_bolean():
+        if self.lookup_number_bolean(self.word2):
             print("This number is already listed")
         else:
             self.telefonbok.append(self.word2 + ";" + self.word1 + ";")
 
     def lookup(self):
-        # Lookups the numbers correlating with the inputed name
+        # Look up the number(s) correlating with the inputed name
 
         if not self.lookup_fix():
             return
@@ -316,6 +355,7 @@ class Telefonbok:
             name = ""
             number = ""
             for symbol in line:
+
                 if symbol == "\\":
                     break
                 if int_check(symbol) and not symbol == ";":
@@ -323,12 +363,14 @@ class Telefonbok:
                 if symbol == ";":
                     bolean = True
                 if not int_check(symbol) and not symbol == ";":
+
                     if bolean:
                         name = ""
                         bolean = False
                     name += symbol
                     if name == self.word1:
                         print(number)
+
             if len(self.telefonbok) == length:
                 print("No number found")
             length += 1
@@ -338,7 +380,7 @@ class Telefonbok:
         # If there are mutiple numbers with the same name it will send out a error message
         # asking for a number
 
-        if not self.alias_change_fix(6):
+        if not self.alias_fix():
             return
 
         self.lookup_name_counter()
@@ -362,38 +404,39 @@ class Telefonbok:
                 print("Name is already in list")
 
     def change(self):
-        # Changes a specified name with a new name
-        # If there are mutiple numbers with the same name it will send out a error message
-        # asking for a number
+        # Changes number correlating with given name and all it's aliases
+        # into a new number
+        # If there are multiple names it will ask for the specified names number aswell
 
-        if not self.alias_change_fix(7):
+        if not self.change_fix():
             return
 
         self.lookup_name_counter()
 
         if self.word_count == 3:
             if self.word_already_exists:
-                if self.name_counter == 1:
-                    print("Name already in list")
+                if not self.lookup_number_bolean(self.word3):
+                    self.telefonbok[self.position] = self.telefonbok[self.position].replace(self.number, self.word3)
                 else:
-                    self.telefonbok[self.position] = self.telefonbok[self.position].replace(self.word1, self.word3)
+                    print("Number already exists in list")
             else:
                 print("Name not in list")
 
         if self.word_count == 2:
-            if self.lookup_alias():
-                print("Name already in list")
-            else:
-                if self.name_counter == 1:
-                    self.telefonbok[self.position] = self.telefonbok[self.position].replace(self.word1, self.word2)
+            if self.name_counter == 1:
+                if not self.lookup_number_bolean(self.word2):
+                    self.telefonbok[self.position] = self.telefonbok[self.position].replace(self.number, self.word2)
                 else:
-                    print("Multiple names found, please specifiy with number")
+                    print("Number already exists in list")
+            elif self.name_counter == 0:
+                print("Name not in list")
+            else:
+                print("Multiple names exist, specify with number")
 
     def remove(self):
         # Removes specified name
         # If there are mutiple numbers with the same name it will send out a error message
-        # asking for a number
-        # If there is only one name with a number it will remove both of them from the list
+        # asking for the number correlating with name
 
         if not self.remove_fix():
             return
@@ -407,10 +450,7 @@ class Telefonbok:
 
         if self.word_count == 3:
             if self.word_already_exists:
-                if self.lookup_length() == 1:
-                    self.telefonbok.pop(self.position)
-                else:
-                    self.telefonbok[self.position] = self.telefonbok[self.position].replace(";" + self.word1, "")
+                self.telefonbok.pop(self.position)
             else:
                 print("Name not in list")
 
@@ -418,10 +458,7 @@ class Telefonbok:
             if self.name_counter == 0:
                 print("Name not in list")
             elif self.name_counter == 1:
-                if self.lookup_length() == 1:
-                    self.telefonbok.pop(self.position)
-                else:
-                    self.telefonbok[self.position] = self.telefonbok[self.position].replace(";" + self.word1, "")
+                self.telefonbok.pop(self.position)
             else:
                 print("Multiple names found, please specifiy with number")
 
@@ -447,11 +484,9 @@ class Telefonbok:
                 self.telefonbok.append(line.replace("\n", ""))
             file.close()
         except FileNotFoundError:
-            print("Text file with name telefon_bok not found")
+            print("Text file with name \'telefon_bok\' not found")
 
     def quit(self):
-        # Quits the program
-
         self.on = False
 
 
