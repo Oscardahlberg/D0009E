@@ -396,7 +396,9 @@ class Telefonbok:
 
         if self.word_count == 2:
             if not self.lookup_alias():
-                if self.name_counter == 1:
+                if self.name_counter == 0:
+                    print("Name not in list")
+                elif self.name_counter == 1:
                     self.telefonbok[self.position] += self.word2 + ";"
                 else:
                     print("Multiple names found, please specifiy with number")
