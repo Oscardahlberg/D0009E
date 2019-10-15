@@ -29,8 +29,10 @@ class Telefonbok:
 
         self.on = True
         self.telefonbok = []
+        self.number = []
 
         self.user_input = ""
+        self.command = ""
         self.word1 = ""
         self.word2 = ""
         self.word3 = ""
@@ -40,7 +42,6 @@ class Telefonbok:
 
         self.word_count = 0
         self.name_counter = 0
-        self.number = 0
         self.position = 0
 
         self.double_str = False
@@ -54,6 +55,7 @@ class Telefonbok:
 
         while self.on:
             self.set_user_input()
+            self.fix_user_input()
             self.menu()
             print(self.telefonbok)
 
@@ -62,10 +64,27 @@ class Telefonbok:
 
         self.user_input = input("telebok> ")
 
-    def correct_user_input(self, position):
-        # Removes the words 'add ' or 'change ' from the input so that the input can be further processed
+    def fix_user_input(self):
+        # Splits the user input into 3 or 4 words
+        # 'Command' is the first word in the input, ex. 'add' or 'change'
 
-        self.user_input = self.user_input[position:]
+        input_list = self.user_input.split()
+        self.word_count = len(input_list)
+
+        self.word1 = ""
+        self.word2 = ""
+        self.word3 = ""
+
+        if self.word_count >= 1:
+            self.command = input_list[0]
+        if self.word_count >= 2:
+            self.word1 = input_list[1]
+        if self.word_count >= 3:
+            self.word2 = input_list[2]
+        if self.word_count >= 4:
+            self.word3 = input_list[3]
+
+        self.word_count -= 1
 
     def lookup_number_bolean(self, number_lookup):
         # Looks in main list to see if the number 'word2' exists
@@ -91,6 +110,7 @@ class Telefonbok:
         length = 0
         self.position = 0
         self.name_counter = 0
+        self.number = []
         self.word_already_exists = False
 
         for line in self.telefonbok:   # For every index in telefonbok
@@ -98,16 +118,16 @@ class Telefonbok:
             number = ""
             for symbol in line:  # For every string in index
 
-                if int_check(symbol):  # Reads number from index
+                if symbol.isnumeric():  # Reads number from index
                     number += symbol
-                if not int_check(symbol) and not symbol == ";":   # Reads names from index
+                if symbol.isalpha():   # Reads names from index
                     name += symbol
 
                 if symbol == ";":  # When a name has been read from the index
                     if self.word_count == 3:  # If the user input has three words
                         if number == self.word2:
                             if name == self.word1:
-                                self.number = number
+                                self.number.append(number)
                                 self.word_already_exists = True
                             if name == self.word3:
                                 self.name_counter += 1
@@ -116,7 +136,7 @@ class Telefonbok:
                     else:  # If the user input has two words
                         if name == self.word1:
                             self.name_counter += 1
-                            self.number = number
+                            self.number.append(number)
                             self.position = length
 
                     name = ""
@@ -128,7 +148,7 @@ class Telefonbok:
         name = ""
 
         for symbol in self.telefonbok[self.position]:
-            if not int_check(symbol) and not symbol == ";":
+            if symbol.isalpha():
                 name += symbol
             if symbol == ";":
                 if name == self.word2:
@@ -145,9 +165,6 @@ class Telefonbok:
         self.word_max = 2
         self.word_min = 2
 
-        self.correct_user_input(4)
-        self.seperate()
-
         if self.input_check():
             return True
         return False
@@ -158,9 +175,6 @@ class Telefonbok:
         self.double_str = False
         self.word_max = 1
         self.word_min = 1
-
-        self.correct_user_input(7)
-        self.seperate()
 
         if self.input_check():
             return True
@@ -174,9 +188,6 @@ class Telefonbok:
 
         self.word_max = 3
         self.word_min = 2
-
-        self.correct_user_input(6)
-        self.seperate()
 
         if self.word_count == 2:
             self.double_str = True
@@ -193,9 +204,6 @@ class Telefonbok:
         self.word_max = 3
         self.word_min = 2
 
-        self.correct_user_input(7)
-        self.seperate()
-
         if self.word_count == 3:
             self.double_int = True
 
@@ -211,8 +219,6 @@ class Telefonbok:
         self.word_max = 2
         self.word_min = 1
 
-        self.correct_user_input(7)
-        self.seperate()
         if self.input_check():
             return True
         return False
@@ -226,39 +232,35 @@ class Telefonbok:
             print("Wrong format used")
             return False
 
-        for symbol in self.word1:
-            if int_check(symbol):
-                print("Wrong format used")
-                return False
+        if not self.word1.isalpha():
+            print("Wrong format used")
+            return False
 
         if self.word_count == 2:
-            for symbol in self.word2:
-                if self.double_str:
-                    if int_check(symbol):
-                        print("Wrong format used")
-                        return False
-                else:
-                    if not int_check(symbol):
-                        print("Wrong format used")
-                        return False
-
-        if self.word_count == 3:
-            for symbol in self.word2:
-                if not int_check(symbol):
+            if self.double_str:
+                if not self.word2.isalpha():
                     print("Wrong format used")
                     return False
-            for symbol in self.word3:
-                if self.double_int:
-                    if not int_check(symbol):
-                        print("Wrong format used")
-                        return False
-                else:
-                    if int_check(symbol):
-                        print("Wrong format used")
-                        return False
+            else:
+                if not self.word2.isnumeric():
+                    print("Wrong format used")
+                    return False
+
+        if self.word_count == 3:
+            if not self.word2.isnumeric():
+                print("Wrong format used")
+                return False
+            if self.double_int:
+                if not self.word2.isnumeric():
+                    print("Wrong format used")
+                    return False
+            else:
+                if not self.word3.isalpha():
+                    print("Wrong format used")
+                    return False
 
         if self.word1 == self.word2 or self.word1 == self.word3:
-            print("Name is already in list")
+            print("Name is already in list1")
             return False
 
         return True
@@ -288,43 +290,43 @@ class Telefonbok:
 
     def menu(self):
 
-        if self.user_input[:3] == "add":
+        if self.command == "add":
             self.add()
 
-        elif self.user_input[:6] == "lookup":
+        elif self.command == "lookup":
             if len(self.telefonbok) == 0:
                 print("Telefonbok is empty")
                 return
             self.lookup()
 
-        elif self.user_input[:5] == "alias":
+        elif self.command == "alias":
             if len(self.telefonbok) == 0:
                 print("Telefonbok is empty")
                 return
             self.alias()
 
-        elif self.user_input[:6] == "change":
+        elif self.command == "change":
             if len(self.telefonbok) == 0:
                 print("Telefonbok is empty")
                 return
             self.change()
 
-        elif self.user_input[:6] == "remove":
+        elif self.command == "remove":
             if len(self.telefonbok) == 0:
                 print("Telefonbok is empty")
                 return
             self.remove()
 
-        elif self.user_input[:4] == "save":
+        elif self.command == "save":
             if len(self.telefonbok) == 0:
                 print("Telefonbok is empty")
                 return
             self.save()
 
-        elif self.user_input[:4] == "load":
+        elif self.command == "load":
             self.load()
 
-        elif self.user_input[:4] == "quit":
+        elif self.command == "quit":
             self.quit()
 
         else:
@@ -348,31 +350,12 @@ class Telefonbok:
         if not self.lookup_fix():
             return
 
-        word = False
-        not_in_list = False
+        self.lookup_name_counter()
 
-        for line in self.telefonbok:
-            name = ""
-            number = ""
-            for symbol in line:
-
-                if symbol == "\\":
-                    break
-                if int_check(symbol) and not symbol == ";":
-                    number += symbol
-                if symbol == ";":
-                    word = True
-                if not int_check(symbol) and not symbol == ";":
-
-                    if word:
-                        name = ""
-                        word = False
-                    name += symbol
-                    if name == self.word1:
-                        print(number)
-                        not_in_list = True
-
-        if not not_in_list:
+        if len(self.number) > 0:
+            for number in self.number:
+                print(number)
+        else:
             print("Name not in list")
 
     def alias(self):
@@ -418,7 +401,7 @@ class Telefonbok:
         if self.word_count == 3:
             if self.word_already_exists:
                 if not self.lookup_number_bolean(self.word3):
-                    self.telefonbok[self.position] = self.telefonbok[self.position].replace(self.number, self.word3)
+                    self.telefonbok[self.position] = self.telefonbok[self.position].replace(self.word2, self.word3)
                 else:
                     print("Number already exists in list")
             else:
@@ -427,7 +410,7 @@ class Telefonbok:
         if self.word_count == 2:
             if self.name_counter == 1:
                 if not self.lookup_number_bolean(self.word2):
-                    self.telefonbok[self.position] = self.telefonbok[self.position].replace(self.number, self.word2)
+                    self.telefonbok[self.position] = self.telefonbok[self.position].replace(self.number[0], self.word2)
                 else:
                     print("Number already exists in list")
             elif self.name_counter == 0:
