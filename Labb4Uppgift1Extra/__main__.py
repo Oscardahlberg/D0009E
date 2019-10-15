@@ -348,8 +348,8 @@ class Telefonbok:
         if not self.lookup_fix():
             return
 
-        length = 0
-        bolean = False
+        word = False
+        not_in_list = False
 
         for line in self.telefonbok:
             name = ""
@@ -361,19 +361,19 @@ class Telefonbok:
                 if int_check(symbol) and not symbol == ";":
                     number += symbol
                 if symbol == ";":
-                    bolean = True
+                    word = True
                 if not int_check(symbol) and not symbol == ";":
 
-                    if bolean:
+                    if word:
                         name = ""
-                        bolean = False
+                        word = False
                     name += symbol
                     if name == self.word1:
                         print(number)
+                        not_in_list = True
 
-            if len(self.telefonbok) == length:
-                print("No number found")
-            length += 1
+        if not not_in_list:
+            print("Name not in list")
 
     def alias(self):
         # Adds a alias of a name with the same number to the list
