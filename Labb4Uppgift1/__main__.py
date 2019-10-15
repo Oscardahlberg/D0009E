@@ -188,9 +188,10 @@ class Telefonbok:
 
         try:
             file = open("telefon_bok", "r")
+            file.close()
             for line in file:
                 for symbol in line:
-                    if symbol == "\\":
+                    if symbol == "\\":  # To skip newline
                         break
                     if self.word_count == 1:
                         self.word1 += symbol
@@ -199,9 +200,8 @@ class Telefonbok:
                     if symbol == ";":
                         self.word_count += 1
                 self.telefonbok[str(self.word1)] = self.word2
-            file.close()
         except FileNotFoundError:
-            print("Text file with name \"telefon_bok\" not found")
+            print("Text file with name 'telefon_bok' not found")
 
     def quit(self):
         self.on = False
